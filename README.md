@@ -47,13 +47,6 @@ python3 manage.py runserver
 
 
 
-
-WEITER HIER
-
-
-
-
-
 # Database
 
 ## Create initial migrations
@@ -127,88 +120,3 @@ import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'app.settings'
 django.setup()
 ```
-
-When using self.client.post inside view tests then you also have to add the following in the settings.py file:
-
-```
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "testserver"]
-```
-
-Without it the status code in the response is a 400.
-
-
-
-# Asynchronous tasks (using RabbitMQ)
-
-
-## Docker
-
-* Install **Ranger Desktop**
-* Login to Docker by opening the terminal and enter:
-```
-docker login
-``` 
-(use the username and password stored in KeePassXC)
-
-
-## RabbitMQ
-
-* Pull **rabbitmq** in Ranger Desktop
-* Start RabbitMQ on the terminal:
-```
-docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:management
-```
-* Open the browser and enter the following URL: **http://localhost:15672/**. On the page you have to login (use **guest** as username and password).
-
-
-## Celery
-
-* Install Celery
-```
-pip install celery
-```
-* Add Celery to your project. Create a new file **celery.py** in the main app folder where the **settings.py** can also be found.
-* Add the following:
-```
-import os
-from celery import Celery
-
-# set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings')
-app = Celery('app')
-app.config_from_object('django.conf:settings', namespace='CELERY')
-app.autodiscover_tasks()
-```
-* Edit the app/__init__.py file and add the following code to it:
-```
-# Import celery
-from .celery import app as celery_app
-__all__ = ['celery_app']
-```
-* Running a Celery worker
-```
-celery -A app worker -l info
-```
-
-
-## Monitoring Celery with Flower
-
-* Install Flower
-```
-pip install flower
-```
-* Create **flowerconfig.py** file in the **app** application and add the following:
-```
-# RabbitMQ management api
-broker = 'http://guest:guest@localhost:5672/'
-broker_api = 'http://guest:guest@localhost:15672/api/'
-
-# Enable debug logging
-logging = 'INFO'
-```
-This is optional but I think it makes sence to mention it here. Even when only changing the logging level.
-* Launch Flower
-```
-celery -A app flower --conf=app/flowerconfig.py
-```
-**--conf=app/flowerconfig.py** is only needed when we add the file.
