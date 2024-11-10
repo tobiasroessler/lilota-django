@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class LilotadjangoConfig(AppConfig):
+class LilotaDjangoConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'lilotadjango'
+    name = 'lilota_django'

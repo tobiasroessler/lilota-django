@@ -1,10 +1,9 @@
 from multiprocessing import Lock
 from datetime import datetime, UTC
-from django.apps import apps
 import django
 django.setup()
 from lilota.stores import TaskStoreBase
-from lilotadjango.models import Task
+from .models import Task
 
 
 class DjangoTaskStore(TaskStoreBase):
