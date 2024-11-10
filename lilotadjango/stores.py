@@ -1,6 +1,10 @@
 from multiprocessing import Lock
 from datetime import datetime, UTC
+from django.apps import apps
+import django
+django.setup()
 from lilota.stores import TaskStoreBase
+from lilotadjango.models import Task
 
 
 class DjangoTaskStore(TaskStoreBase):
@@ -10,7 +14,6 @@ class DjangoTaskStore(TaskStoreBase):
 
 
   def insert(self, name, description, input):
-    from .models import Task
     self._lock.acquire()
     try:
       task = Task.objects.create()
@@ -24,7 +27,6 @@ class DjangoTaskStore(TaskStoreBase):
 
 
   def get_all_tasks(self):
-    from .models import Task
     self._lock.acquire()
     try:
       return Task.objects.all()
@@ -35,7 +37,6 @@ class DjangoTaskStore(TaskStoreBase):
 
 
   def get_by_id(self, id):
-    from .models import Task
     self._lock.acquire()
     try:
       return Task.objects.get(id=id)
@@ -46,7 +47,6 @@ class DjangoTaskStore(TaskStoreBase):
 
 
   def set_start(self, id: int):
-    from .models import Task
     self._lock.acquire()
     try:
       task = Task.objects.get(id=id)
@@ -55,12 +55,12 @@ class DjangoTaskStore(TaskStoreBase):
         raise Exception(f"The task with the id '{id}' does not exist")
       
       task.start_date_time = datetime.now(UTC)
+      task.save()
     finally:
       self._lock.release()
 
   
   def set_progress(self, id: int, progress: int):
-    from .models import Task
     self._lock.acquire()
     try:
       task = Task.objects.get(id=id)
@@ -69,12 +69,12 @@ class DjangoTaskStore(TaskStoreBase):
         raise Exception(f"The task with the id '{id}' does not exist")
       
       task.progress_percentage = progress
+      task.save()
     finally:
       self._lock.release()
 
 
   def set_output(self, id: int, output: dict):
-    from .models import Task
     self._lock.acquire()
     try:
       task = Task.objects.get(id=id)
@@ -83,12 +83,12 @@ class DjangoTaskStore(TaskStoreBase):
         raise Exception(f"The task with the id '{id}' does not exist")
       
       task.output = output
+      task.save()
     finally:
       self._lock.release()
 
 
   def set_end(self, id: int):
-    from .models import Task
     self._lock.acquire()
     try:
       task = Task.objects.get(id=id)
@@ -98,5 +98,6 @@ class DjangoTaskStore(TaskStoreBase):
       
       task.end_date_time = datetime.now(UTC)
       task.progress_percentage = 100
+      task.save()
     finally:
       self._lock.release()
