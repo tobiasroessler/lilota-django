@@ -1,7 +1,6 @@
 # lilota-django
 
-Light weight solution for long running tasks when using Django.
-
+Light weight solution for long running tasks when using Django. A detailed description about lilota can be found [here](https://github.com/tobiasroessler/lilota).
 
 
 ## Installation
@@ -28,7 +27,6 @@ python manage.py migrate
 ```
 
 After the migrations have been applied you will find a new table called **lilota_store** in your database. This table contains information about the tasks that are currently running or that already ran.
-
 
 
 ## Usage
