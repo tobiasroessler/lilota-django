@@ -1,11 +1,11 @@
 # lilota-django
 
-Light weight solution for long running tasks when using Django. A detailed description about lilota can be found [here](https://github.com/tobiasroessler/lilota?tab=readme-ov-file#lilota).
+Light weight solution for long running tasks when using Django. A detailed description about **lilota** can be found [here](https://github.com/tobiasroessler/lilota?tab=readme-ov-file#lilota).
 
 
 ## Installation
 
-In order to install lilota-django in your application you have to enter the following command:
+In order to install **lilota-django** in your application you have to enter the following command:
 
 ```
 pip install lilota-django
