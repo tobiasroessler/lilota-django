@@ -5,13 +5,13 @@ Light weight solution for long running tasks when using Django. A detailed descr
 
 ## Installation
 
-In order to install lilota-django in your application yopu have to do the following:
+In order to install lilota-django in your application you have to enter the following command:
 
 ```
 pip install lilota-django
 ```
 
-After that you can integrate it by adding it in the **settings.py**.
+After that you can integrate it by adding it in the **settings.py** file.
 
 ```
 INSTALLED_APPS = [
@@ -26,7 +26,7 @@ Now it is time to apply the database changes:
 python manage.py migrate
 ```
 
-After the migrations have been applied you will find a new table called **lilota_store** in your database. This table contains information about the tasks that are currently running or that already ran.
+After the migrations have been applied you will find a new table called **lilota_store** in your database. This table contains information about the tasks that are currently running or that already ran. Congratulations, you have successfully installed the package.
 
 
 ## Usage
@@ -58,14 +58,14 @@ class LongRunningTask(TaskBase):
 In this example we create the task **LongRunningTask**. In the **run** method we wait 10 seconds and then we calculate the sum of two numbers (**number1** and **number2**). For the moment it is not important to understand where **number1** and **number2** are coming from. We come to that very soon. The result is in the end stored in a dictionary and here the key **result** is used. You are free to use whatever name you want for that key and you can use how many keys and values you want of course.
 
 What you can see is that we also log messages here. **lilota-django** is using the build-in **logging** module and
-this is already integrated inside the base class **TaskBase** and can be directly used.
+this is already integrated inside the base class **TaskBase**.
 
 
 ### Create a store
 
-**lilota-django** needs a store where all the information about the running tasks are stored. Several store implementations are of course possible. By default **lilota-django** comes with a store that holds its data inside the memory. In the future we will also create a store that connects to a database and is using Django.
+**lilota-django** needs a store where all the information about the running tasks are stored. Several store implementations are of course possible. **lilota-django** comes with a store that holds its data inside the database in a table called **lilota_store**.
 
-Here is an example for our in-memory store:
+Here is an example of how to create and initialize our store:
 ```
 from lilota.stores import StoreManager
 from lilota_django.stores import DjangoTaskStore
@@ -128,7 +128,7 @@ Here we add a task to the runner by specifying the name ("long_running_task") th
 
 ### Data inside the store
 
-As soon as the task is running information about the task are stored in the store. We can get for example all tasks with the following command:
+As soon as the task is running information about the task are stored in the database. We can get for example all tasks with the following command:
 
 ```
 tasks = store.get_all_tasks()
