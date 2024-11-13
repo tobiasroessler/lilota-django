@@ -1,6 +1,6 @@
 # lilota-django
 
-Light weight solution for long running tasks when using Django. A detailed description about lilota can be found [here](https://github.com/tobiasroessler/lilota).
+Light weight solution for long running tasks when using Django. A detailed description about lilota can be found [here](https://github.com/tobiasroessler/lilota?tab=readme-ov-file#lilota).
 
 
 ## Installation
